@@ -20,6 +20,7 @@ begin
 rescue => ex
   puts ex
   puts options
+  exit
 end
 
 

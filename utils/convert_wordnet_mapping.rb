@@ -22,6 +22,7 @@ begin
 rescue => ex
   puts ex
   puts options
+  exit
 end
 
 mapping = {}
@@ -32,7 +33,7 @@ CSV.open(options[:mapping]) do |input|
 end
 
 WordNet::DB.path = options[:wordnet]
-wordnet = WordNet::Lemma#.find("plant", :noun).synsets
+wordnet = WordNet::Lemma
 
 CSV.open(options[:input]) do |input|
   CSV.open(options[:output],"w") do |output|
@@ -60,7 +61,8 @@ CSV.open(options[:input]) do |input|
         lemma = elements.join("-")
         synset = wordnet.find(lemma.downcase,pos.to_sym).synsets[index-1]
         pos_offset = ("#{prefix}%08i" % synset.pos_offset).to_i
-        output << [lemma,pos_offset,mapping[pos_offset],pos,cyc_id,cyc_name]
+        target_id = mapping[pos_offset].to_s[1..-1].sub(/^0*/,"")
+        output << [lemma,pos_offset,target_id,pos,cyc_id,cyc_name]
       rescue => ex
         puts ex
         puts "Error for: #{wordnet_2_name} #{elements.join("_")} #{pos}"
