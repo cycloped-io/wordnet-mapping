@@ -13,7 +13,9 @@ GEM
     ref (1.0.5)
     rwordnet (1.0.0)
     slop (3.6.0)
-    wiktionary (0.1.0)
+    unicode_utils (1.4.0)
+    wiktionary (0.1.1)
+      unicode_utils
 
 PLATFORMS
   ruby
